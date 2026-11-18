@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f4efdf">
+  <meta name="description" content="操纵老福走上石榴巷，出拳、闪避、格挡，守住福气武馆。免费 3D 网页试玩。">
+  <link rel="icon" href="./assets/seal.png">
+  <link rel="preload" href="./assets/display.ttf" as="font" type="font/ttf" crossorigin>
+  <title>功夫不老头 · 福气武馆</title>
+  <link rel="stylesheet" href="./style-96da0d272168.css">
+</head>
+<body>
+<header class="mast"><div class="wrap mast-inner">
+  <div class="brand"><img src="./assets/seal.png" alt="" width="42" height="42"><span>福气武馆</span></div>
+  <nav aria-label="主导航"><a href="#game" aria-current="page">演武场</a><button data-help>招式指南</button></nav>
+  <div class="tools"><button id="sound" aria-pressed="true"><i class="icon sound"></i><span>声音开</span></button><button id="full"><i class="icon full"></i><span>全屏</span></button></div>
+</div></header>
+<main class="wrap">
+  <section class="arena" id="game" aria-label="功夫不老头游戏" data-phase="loading" tabindex="-1">
+    <canvas id="world" aria-label="石榴巷三维演武场"></canvas>
+    <div class="paper-wash"></div>
+    <div class="screen loading" id="loading"><div class="loader"></div><strong>正在打开武馆…</strong><span id="load-detail" role="status"></span><button id="retry" hidden>重新载入</button></div>
+    <div class="title-screen" id="title-screen" hidden>
+      <div class="chapter"><b>第一回</b><span>房租催收大作战</span></div>
+      <h1><span>功夫</span><em>不老头</em></h1>
+      <p class="english" lang="en">KUNG FU NEVER GETS OLD</p>
+      <p class="tagline">越老越能打，越打越老！</p>
+      <button class="main-action" id="start"><span class="triangle"></span>开始游戏<span class="enter-key" aria-hidden="true">↵</span></button>
+    </div>
+    <div id="place" class="place" hidden><span class="pin"></span>石榴巷 · 福气武馆</div>
+    <div class="status" id="status" hidden>
+      <div class="fighter-card"><img id="face" src="./assets/fu-0.png" alt="老福"><div><div class="fighter-name">老福 <b id="age-label">35 岁</b></div><div class="hp-track"><i id="hp-fill"></i></div><small id="hp-count"></small></div></div>
+      <div class="enemies"><div><span>街头混混</span><i><b id="enemy-0"></b></i></div><div><span>铁算盘</span><i><b id="enemy-1"></b></i></div></div>
+      <button class="stage-pause" id="pause" aria-label="暂停"><i class="icon pause-icon"></i></button>
+    </div>
+    <div class="chain" id="chain" hidden></div><div id="notice" class="notice" role="status" hidden></div>
+    <div class="story-layer" id="story" hidden><button class="skip" id="skip">跳过剧情 ›</button>
+      <div class="dialogue"><img id="speaker-image" alt=""><div><b id="speaker"></b><p id="line"></p></div><button id="next" aria-label="下一句">›</button></div>
+    </div>
+    <div class="touch" id="touch" hidden><div class="stick" id="stick" aria-label="移动摇杆"><i></i></div>
+      <div class="buttons"><button data-act="light">拳</button><button data-act="heavy">重</button><button data-act="dodge">闪</button><button data-act="guard">挡</button></div>
+    </div>
+    <div class="age-cut" id="age-cut" hidden><div><small>功 力 沉 淀</small><strong id="age-cut-number"></strong><span id="age-cut-line"></span></div></div>
+    <div class="screen curtain" id="result" hidden><div class="dialog-card"><div class="small-seal">福</div><h2 id="result-title"></h2><p id="result-copy"></p><button class="main-action" id="again">再开一局 <span>↵</span></button><button class="text-action" data-home>返回武馆</button></div></div>
+    <div class="screen curtain" id="paused" hidden><div class="dialog-card"><h2>歇口气</h2><button class="main-action" id="resume">继续游戏</button><button class="text-action" data-home>返回武馆</button></div></div>
+    <div class="screen curtain" role="dialog" aria-modal="true" aria-labelledby="help-title" id="help" hidden><div class="dialog-card help-card">
+      <button id="help-close" class="close" aria-label="关闭招式指南">×</button><h2 id="help-title">招式指南</h2>
+      <dl><dt>移动与视角</dt><dd>WASD 移动，按住鼠标右键拖动视角。手机用左下摇杆移动，在右侧空白处拖动视角。</dd>
+      <dt>普通攻击与重拳</dt><dd>连点 J 或「拳」接左拳、右拳与踢腿。K 或「重」自动蓄力，能打断敌人、击碎木箱、推开木桶。</dd>
+      <dt>闪避与格挡</dt><dd>空格或「闪」向移动方向闪避，松开方向则后撤。按住 L 或「挡」减伤，迎着敌人的出拳格挡可反击。</dd>
+      <dt>战败与年龄</dt><dd>战败后老福变老，拳更重、步子更慢。80 岁是最后一场机会。P 暂停。</dd></dl>
+    </div></div>
+  </section>
+  <section class="manual" aria-labelledby="moves-heading">
+    <div class="manual-heading"><div><span class="red-rule"></span><h2 id="moves-heading">招式手册</h2></div><div class="switch" aria-label="操作方式"><button id="keys-tab" aria-pressed="true">键盘</button><button id="touch-tab" aria-pressed="false">触屏</button></div></div>
+    <div class="moves">
+      <div class="move"><i class="move-icon move-walk"></i><div><h3>移动</h3><small data-key="W A S D" data-touch="左侧摇杆">W A S D</small></div></div>
+      <div class="move"><i class="move-icon move-jab"></i><div><h3>三段连击</h3><small data-key="J · 连按" data-touch="连点「拳」">J · 连按</small></div></div>
+      <div class="move"><i class="move-icon move-heavy"></i><div><h3>蓄力重拳</h3><small data-key="K" data-touch="点击「重」">K</small></div></div>
+      <div class="move"><i class="move-icon move-dodge"></i><div><h3>闪避</h3><small data-key="SPACE" data-touch="点击「闪」">SPACE</small></div></div>
+      <div class="move"><i class="move-icon move-guard"></i><div><h3>格挡</h3><small data-key="L · 按住" data-touch="按住「挡」">L · 按住</small></div></div>
+    </div>
+  </section>
+</main>
+<script type="module" src="./game-8d185d8959c6.js"></script>
+</body></html>
